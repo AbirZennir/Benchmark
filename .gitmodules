@@ -1,0 +1,9 @@
+[submodule "apps/variant-a-jersey"]
+	path = apps/variant-a-jersey
+	url = https://github.com/AbirZennir/JAXRS-.git
+[submodule "apps/variant-c-rest"]
+	path = apps/variant-c-rest
+	url = https://github.com/AbirZennir/spring.git
+[submodule "apps/react-client"]
+	path = apps/react-client
+	url = https://github.com/AbirZennir/Client-React.git
