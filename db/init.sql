@@ -1,0 +1,23 @@
+CREATE EXTENSION IF NOT EXISTS pg_trgm;
+
+CREATE TABLE IF NOT EXISTS category (
+  id BIGSERIAL PRIMARY KEY,
+  code VARCHAR(20) UNIQUE NOT NULL,
+  name VARCHAR(120) NOT NULL,
+  created_at TIMESTAMPTZ DEFAULT now()
+);
+
+CREATE TABLE IF NOT EXISTS item (
+  id BIGSERIAL PRIMARY KEY,
+  category_id BIGINT NOT NULL REFERENCES category(id) ON DELETE CASCADE,
+  sku VARCHAR(32) UNIQUE NOT NULL,
+  label VARCHAR(200) NOT NULL,
+  description TEXT,
+  price NUMERIC(10,2) NOT NULL DEFAULT 0,
+  stock INTEGER NOT NULL DEFAULT 0,
+  created_at TIMESTAMPTZ DEFAULT now()
+);
+
+CREATE INDEX IF NOT EXISTS idx_item_category ON item(category_id);
+CREATE INDEX IF NOT EXISTS idx_item_price ON item(price);
+CREATE INDEX IF NOT EXISTS idx_item_label_trgm ON item USING GIN (label gin_trgm_ops);
